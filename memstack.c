@@ -1,9 +1,9 @@
 /************************************************************************/
-/* Ä£¿éÃû³Æ£ºmemstack.c                                                 */
-/* ¹¦ÄÜÃèÊö£ºÄÚ´æÕ»¹ÜÀí                                                 */
-/* ×÷Õß£ºÓáº£Éú                                                         */
-/* ÈÕÆÚ£º2010-08-16                                                     */
-/* ĞŞ¸ÄÀúÊ·£º                                                           */
+/* æ¨¡å—åç§°ï¼šmemstack.c                                                 */
+/* åŠŸèƒ½æè¿°ï¼šå†…å­˜æ ˆç®¡ç†                                                 */
+/* ä½œè€…ï¼šmadlas                                                         */
+/* æ—¥æœŸï¼š2010-08-16                                                     */
+/* ä¿®æ”¹å†å²ï¼š                                                           */
 /************************************************************************/
 #include <memory.h>
 #include <stdlib.h>
@@ -43,7 +43,7 @@ void stack_free(stack_head *stack_handle)
 
 }
 /*
-Á´±í²»¸ºÔğÊÍ·ÅÄÚÈİ£¬ÓÉµ÷ÓÃ³ÌĞò×ÔĞĞÊÍ·Å
+é“¾è¡¨ä¸è´Ÿè´£é‡Šæ”¾å†…å®¹ï¼Œç”±è°ƒç”¨ç¨‹åºè‡ªè¡Œé‡Šæ”¾
 */
 void stack_freeptr(stack_head *stack_handle)
 {
@@ -78,7 +78,7 @@ stack_head *stack_init()
 	return new_stack;
 }
 /*
-Ö»Ìí¼ÓÖ¸Õëµ½Á´±í,Á´±í²»¸ºÔğÄÚ´æ·ÖÅä
+åªæ·»åŠ æŒ‡é’ˆåˆ°é“¾è¡¨,é“¾è¡¨ä¸è´Ÿè´£å†…å­˜åˆ†é…
 */
 int stack_addptr(stack_head *stack_handle, char * p_data, int data_len)
 {
@@ -100,7 +100,7 @@ int stack_addptr(stack_head *stack_handle, char * p_data, int data_len)
 		return 0;
 	}
 
-	//Ìí¼ÓĞÂ½Úµãµ½Á´±íÄ©Î²
+	//æ·»åŠ æ–°èŠ‚ç‚¹åˆ°é“¾è¡¨æœ«å°¾
 	stack_handle->tail_node->next_node = (char *)p_tail;
 	p_tail->prev_node = (char *)(stack_handle->tail_node);
 	stack_handle->tail_node = p_tail;
@@ -110,7 +110,7 @@ int stack_addptr(stack_head *stack_handle, char * p_data, int data_len)
 
 }
 /*
-¸´ÖÆÄÚÈİµ½Á´±í£¬Á´±í¸ºÔğ·ÖÅäÄÚ´æ
+å¤åˆ¶å†…å®¹åˆ°é“¾è¡¨ï¼Œé“¾è¡¨è´Ÿè´£åˆ†é…å†…å­˜
 */
 int stack_add(stack_head *stack_handle, char * p_data, int data_len)
 {
