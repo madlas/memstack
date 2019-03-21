@@ -11,7 +11,7 @@
 
 #include "typedef.h"
 #include "memstack.h"
-#include "Util.h"
+//#include "Util.h"
 
 void stack_free(stack_head *stack_handle)
 {
@@ -66,6 +66,10 @@ void stack_freeptr(stack_head *stack_handle)
 	};
 
 	_FREE(p_head);
+	if (stack_handle->p_index_map)
+	{
+		_FREE(stack_handle->p_index_map);
+	}
 	p_head = NULL;
 	stack_handle = NULL;
 	return;
@@ -193,6 +197,34 @@ void  stack_delall(stack_head *stack_handle)
 		stack_del(stack_handle, 0);
 	}
 }
+char *stack_getdata_fast(stack_head *stack_handle, int index, int fast)
+{
+	stack_node *p_data = stack_handle->head_node;
+	int i;
+
+	if (index > stack_handle->count - 1)
+	{
+		return NULL;
+	}
+
+	if (fast && stack_handle->p_index_map)
+	{
+		lpstack_node ptr = stack_handle->p_index_map[index];
+		return ptr->node_data;
+	}
+
+	for (i= 0; p_data != NULL; p_data = (stack_node *)(p_data->next_node))
+	{
+		if (i == index)
+		{
+			return p_data->node_data;
+		}
+		i++;
+	}
+
+	return NULL;
+}
+
 
 char *stack_getdata(stack_head *stack_handle, int index)
 {
@@ -296,4 +328,18 @@ int stack_add_nolike(stack_head *stack_handle, char *data, int data_len)
 }
 
 
+int stack_build_index(stack_head *stack_handle)
+{
+	stack_handle->p_index_map = realloc(stack_handle->p_index_map, stack_handle->count * sizeof (lpstack_node));
+	//stack_handle->p_index_map = malloc(stack_handle->count * sizeof (lpstack_node));
+	
+	lpstack_node p_data;
+	lpstack_node *ptr = stack_handle->p_index_map;
+	for (p_data = stack_handle->head_node; p_data != NULL; p_data = (stack_node *)(p_data->next_node))
+	{
+		*ptr = p_data;
+		ptr++;
+	}
 
+	return 0;
+}
